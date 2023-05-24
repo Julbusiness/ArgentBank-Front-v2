@@ -11,6 +11,7 @@ export default function Login() {
 		password: "password456",
 	});
 	const dispatch = useDispatch();
+	const [checked, setChecked] = useState(false);
 
 
 	const onChange = (e) => {
@@ -20,16 +21,33 @@ export default function Login() {
 		});
 	};
 
+	const handleChange = () => {
+		setChecked(!checked)
+	}
+
 	const onSubmit = (e) => {
 		e.preventDefault();
-		accountService
+
+		if(checked) {
+			accountService
+				.login(login)
+				.then((response) => {
+					accountService.saveToken(response.data.body.token);
+					dispatch(getUser());
+					navigate("/user/profile");
+				})
+				.catch((error) => console.log(error));
+		} else {
+			accountService
 			.login(login)
 			.then((response) => {
-				accountService.saveToken(response.data.body.token);
+				accountService.saveTokenSession(response.data.body.token);
 				dispatch(getUser());
 				navigate("/user/profile");
 			})
 			.catch((error) => console.log(error));
+		}
+
 	};
 
 	return (
@@ -58,7 +76,7 @@ export default function Login() {
 					</div>
 					<div className="input-remember">
 						<label htmlFor="remember-me">Remember me</label>
-						<input type="checkbox" id="remember-me"/>
+						<input type="checkbox" id="remember-me" checked={checked} onChange={handleChange} />
 					</div>
 					<button className="sign-in-button">Sign In</button>
 				</form>

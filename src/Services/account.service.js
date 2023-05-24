@@ -8,19 +8,23 @@ let saveToken = (token) => {
   localStorage.setItem('token', token)
 }
 
+let saveTokenSession = (token) => {
+  sessionStorage.setItem('token', token)
+}
+
 let logout = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('token') || sessionStorage.removeItem('token')
 }
 
 let isLogged = () => {
-  let token = localStorage.getItem('token')
+  let token = localStorage.getItem('token') || sessionStorage.getItem('token')
   return !!token
 }
 
 let getToken = () => {
-  return localStorage.getItem('token')
+  return localStorage.getItem('token') || sessionStorage.getItem('token')
 }
 
 export const accountService = {
-  login, saveToken, logout, isLogged, getToken
+  login, saveToken, logout, isLogged, getToken, saveTokenSession
 }
