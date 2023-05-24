@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "../../utils/Utils";
 import { editUser, getUser } from "../../Redux/actions/user.action";
 
+
 export default function Profile() {
 	const [editToggle, setEditToggle] = useState(false);
 	const user = useSelector((state) => state.userReducer);
@@ -24,6 +25,12 @@ export default function Profile() {
 		form.current.reset()
 	};
 
+	const handleCancel = () => {
+		setEditToggle(false)
+	}
+
+	// console.log(isEmpty(user))
+
 	return (
 		<main className="main bg-dark">
 			{editToggle ? (
@@ -35,7 +42,7 @@ export default function Profile() {
 								<label htmlFor="firstName"></label>
 								<input
 									type="text"
-									name="firstName"
+									id="firstName"
 									placeholder={user.firstName}
 									onChange={(e) => setEditcontent(e.target.value)}
 								/>
@@ -44,15 +51,15 @@ export default function Profile() {
 								<label htmlFor="lastName"></label>
 								<input
 									type="text"
-									name="lastName"
+									id="lastName"
 									placeholder={user.lastName}
 									onChange={(e) => setEditcontent(e.target.value)}
 								/>
 							</div>
 						</div>
 						<div className="buttons">
-							<button type="submit" className="sign-in-button-edit">Save</button>
-							<button className="sign-in-button-edit">Cancel</button>
+							<button className="sign-in-button-edit">Save</button>
+							<button onClick={handleCancel} className="sign-in-button-edit">Cancel</button>
 						</div>
 					</form>
 				</section>

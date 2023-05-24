@@ -4,8 +4,6 @@ let login = (login) => {
   return Axios.post("/api/v1/user/login", login)
 }
 
-// local Storage
-
 let saveToken = (token) => {
   localStorage.setItem('token', token)
 }

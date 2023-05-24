@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { accountService } from "../../Services/account.service";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../Redux/actions/user.action";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -8,6 +10,8 @@ export default function Login() {
 		email: "steve@rogers.com", // mettre une chaine de caractere vide une fois l'app terminé
 		password: "password456",
 	});
+	const dispatch = useDispatch();
+
 
 	const onChange = (e) => {
 		setLogin({
@@ -22,6 +26,7 @@ export default function Login() {
 			.login(login)
 			.then((response) => {
 				accountService.saveToken(response.data.body.token);
+				dispatch(getUser());
 				navigate("/user/profile");
 			})
 			.catch((error) => console.log(error));
@@ -37,7 +42,7 @@ export default function Login() {
 						<label htmlFor="email">Username</label>
 						<input
 							type="text"
-							name="email"
+							id="email"
 							value={login.email}
 							onChange={onChange}
 						/>
@@ -46,14 +51,14 @@ export default function Login() {
 						<label htmlFor="password">Password</label>
 						<input
 							type="password"
-							name="password"
+							id="password"
 							value={login.password}
 							onChange={onChange}
 						/>
 					</div>
 					<div className="input-remember">
 						<label htmlFor="remember-me">Remember me</label>
-						<input type="checkbox" name="remember-me"/>
+						<input type="checkbox" id="remember-me"/>
 					</div>
 					<button className="sign-in-button">Sign In</button>
 				</form>
