@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/argentBankLogo.png";
 
-export default function NavbarSignin(props) {
+export default function NavbarSignin() {
 	return (
 		<nav className="main-nav">
 			<NavLink to="/" className="main-nav-logo">
