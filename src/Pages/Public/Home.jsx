@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import IconChat from "../../assets/icon-chat.png"
 import IconMoney from "../../assets/icon-money.png"
 import IconSecurity from "../../assets/icon-security.png"
+import { accountService } from '../../Services/account.service';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(accountService.isLogged()){
+      // console.log("je suis connecté")
+      navigate("/user/profile")
+    } else {
+      // console.log("je ne suis pas connecté")
+      navigate("/")
+    }
+  }, [])
+
   return (
     <main>
     <div className="hero">
