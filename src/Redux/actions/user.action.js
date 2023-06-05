@@ -8,7 +8,6 @@ export const getUser = () => {
     return Axios
       .post("/api/v1/user/profile")
       .then((res) => {
-        // console.log(res)
         dispatch({ type: "GET_USER", payload: res.data.body });
       })
       .catch((err) => console.log(err));

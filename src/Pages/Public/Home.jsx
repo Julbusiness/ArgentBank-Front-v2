@@ -13,10 +13,8 @@ export default function Home() {
 
   useEffect(() => {
     if(accountService.isLogged()){
-      // console.log("je suis connecté")
       navigate("/user/profile")
     } else {
-      // console.log("je ne suis pas connecté")
       navigate("/")
     }
   }, [])

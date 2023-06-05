@@ -67,6 +67,7 @@ paths:
       description: API for fetching a user profile
       parameters:
         - in: header
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -90,6 +91,7 @@ paths:
       description: API for updating a user profile
       parameters:
         - in: header
+          type: string
           name: Authorization
           description: Attach Bearer JWT token
           required: true
@@ -106,6 +108,161 @@ paths:
           description: User profile retrieved successully
           schema:
             $ref: '#/definitions/ApiResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Returns a list of transactions
+      description: API for fetching a user transactions. Return tranctions for the current month if no tags provided
+      parameters:
+        - in: query
+          name: Date
+          description: Filter transactions by date
+          required: false
+          type: string
+          format: JJ/MM/AAAA
+        - in: query
+          name: Description
+          description: Filter transactions by description
+          required: false
+          type: string
+        - in: query
+          name: Amount
+          description: Filter transactions by amount
+          required: false
+          type: number
+        - in: query
+          name: Balance
+          description: Filter transactions by balance
+          required: false
+          type: number
+        - in: body
+          name: body
+          description: transactions filter
+          required: true
+          schema:
+            $ref: '#/definitions/UserTransactions'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved transactions successully
+          schema:
+            $ref: '#/definitions/UserTransactions'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Create a transaction
+      description: API for fetching and create a transaction
+      parameters:
+        - in: body
+          name: body
+          description: create transaction details attributes
+          required: true
+          schema:
+            $ref: '#/definitions/UserTransactionDetails'
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: User created transaction details successully
+          schema:
+            $ref: '#/definitions/UserTransactionDetails'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /user/transactions/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Return a transaction by id
+      description: API for fetching a transaction
+      parameters:
+        - name: id
+          type: integer 
+          in: path
+          description: Transaction ID
+          required: true
+        - in: body
+          name: body
+          description: transactions filter
+          required: true
+          schema:
+            $ref: '#/definitions/UserTransactionDetails'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile retrieved transactions successully
+          schema:
+            $ref: '#/definitions/UserTransactionDetails'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Update a transaction by id
+      description: API for updating a transaction details. Only type, category et notes are updateable
+      parameters:
+        - name: id
+          type: integer 
+          in: path
+          description: Transaction ID
+          required: true
+        - in: body
+          name: body
+          description: Update transaction attributes
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionId'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User profile updated transaction details successully
+          schema:
+            $ref: '#/definitions/TransactionId'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Transactions
+      summary: Delete a transaction by id
+      description: API for deleting a transaction details
+      parameters:
+        - name: id
+          type: integer 
+          in: path
+          description: Transaction ID
+          required: true
+      produces:
+        - application/json
+      responses:
+        '204':
+          description: User profile deleted transaction details successully
         '400':
           description: Invalid Fields
         '500':
@@ -164,3 +321,50 @@ definitions:
         type: string
       lastName:
         type: string
+  UserTransactions:
+    type: array
+    items: 
+      type: object
+      properties:
+        id: 
+          type: number
+        accountId: 
+          type: number 
+        date: 
+          type: string
+        description:
+          type: string
+        amount: 
+          type: number
+        balance: 
+          type: number
+  TransactionId:
+    type: object
+    properties:
+      type: 
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
+  UserTransactionDetails:
+      type: object
+      properties:
+        id: 
+          type: number
+        accountId: 
+          type: number 
+        date: 
+          type: string
+        description:
+          type: string
+        amount: 
+          type: number
+        balance: 
+          type: number
+        transactionType:
+          type: string
+        category:
+          type: string
+        notes:
+          type: string

@@ -29,8 +29,6 @@ export default function Profile() {
 		setEditToggle(false)
 	}
 
-	// console.log(isEmpty(user))
-
 	return (
 		<main className="main bg-dark">
 			{editToggle ? (
